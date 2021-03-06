@@ -3,7 +3,6 @@
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
-parameters:
 
 services:
     # default configuration for services in *this* file
@@ -37,3 +36,14 @@ services:
         arguments: [ 'mongodb://mongo/test?retryWrites=true&w=majority']
     
     App\Services\ICrudService: '@App\Services\CrudService'
+
+    App\EventListener\UserResolveListener:
+        public: true
+        tags:
+            - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }
+
+    Trikoder\Bundle\OAuth2Bundle\Manager\ClientManagerInterface: '@App\Security\ClientManager'
+
+    Trikoder\Bundle\OAuth2Bundle\Manager\AccessTokenManagerInterface: '@App\Security\AccessTokenManager'
+    
+    Symfony\Component\Security\Core\User\UserProviderInterface: '@App\Security\UserProvider'

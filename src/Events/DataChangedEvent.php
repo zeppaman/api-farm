@@ -22,7 +22,6 @@ class DataChangedEvent extends Event
 
     public function setData($data)
     {
-         $this->data=$data;
-         echo "SETTED";
+         $this->data=$data;         
     }
 }

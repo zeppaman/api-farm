@@ -67,13 +67,14 @@ class AbstractCrudService implements ICrudService
         $coll->deleteOne($this->getIdFilter($id));
     }
 
-    function find(String $db,String $collection,$query=[], $skip=0, $limit=1000)
+    function find(String $db,String $collection,$query=[], $skip=0, $limit=1000, $sort=array())
     {
         $db= $this->client->selectDatabase($db);            
         $coll= $db->selectCollection($collection);      
         $result= $coll->find($query,array(
             'skip' =>$skip,
-            'limit' =>$limit
+            'limit' =>$limit,
+            'sort' => $sort
         ));
 
         return $this->transfromMany($result);

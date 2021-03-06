@@ -19,3 +19,27 @@ http://localhost/api/data/test/test/60428383bdb90439ec593df2
 {"request":{"database":"test","collection":"test","id":"60428383bdb90439ec593df2"},"data":{"_id":"60428383bdb90439ec593df2","ddd":"ddd"},"metadata":[]}
 ```
 
+
+
+# oauth
+
+ bin/console trikoder:oauth2:create-client
+
+ -------- 
+  Identifier                         Secret                                                                                                                            
+ ---------------------------------- ---------------------------------------------------------------------------------------------------------------------------------- 
+  c0a71bf0379c66c46da3ed41a4f4aab2   e8f9855c30bb9915e61bc093656e75c7e8e3bc3b221eca2be796790af96e6f347b738a28c84ffb9db61617e812b21c51c8b29d9d8d1c92d2df9b386a2404c394  
+ ---------------------------------- ---------------------------------------------------------------------------------------------------------------------------------- 
+
+ bin/console trikoder:oauth2:update-client --grant-type client_credentials --grant-type password c0a71bf0379c66c46da3ed41a4f4aab2
+
+  bin/console trikoder:oauth2:list-clients
+
+
+curl --location --request POST 'localhost/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'username=bobòòò' \
+--data-urlencode 'password=xyz' \
+--data-urlencode 'client_id=c0a71bf0379c66c46da3ed41a4f4aab2' \
+--data-urlencode 'client_secret=e8f9855c30bb9915e61bc093656e75c7e8e3bc3b221eca2be796790af96e6f347b738a28c84ffb9db61617e812b21c51c8b29d9d8d1c92d2df9b386a2404c394'

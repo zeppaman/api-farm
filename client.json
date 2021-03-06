@@ -1,0 +1,19 @@
+Trikoder\Bundle\OAuth2Bundle\Model\Client Object
+(
+    [identifier:Trikoder\Bundle\OAuth2Bundle\Model\Client:private] => 4747bf48fdfe972226c8db27ffc42767
+    [secret:Trikoder\Bundle\OAuth2Bundle\Model\Client:private] => 12f5aa75ba6ae327d51fda3f355177d8b4c84cb32bad50006a1e9945be64db0828ac37104d7f051bf10db3858cff3dd8443b477ee233b87a537d1685a504a608
+    [redirectUris:Trikoder\Bundle\OAuth2Bundle\Model\Client:private] => Array
+        (
+        )
+
+    [grants:Trikoder\Bundle\OAuth2Bundle\Model\Client:private] => Array
+        (
+        )
+
+    [scopes:Trikoder\Bundle\OAuth2Bundle\Model\Client:private] => Array
+        (
+        )
+
+    [active:Trikoder\Bundle\OAuth2Bundle\Model\Client:private] => 1
+    [allowPlainTextPkce:Trikoder\Bundle\OAuth2Bundle\Model\Client:private] => 
+)

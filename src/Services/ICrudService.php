@@ -12,5 +12,5 @@ interface ICrudService
 
     function delete(String $db, String $collection,String $id);
 
-    function find(String $db,String $collection,$query);
+    function find(String $db,String $collection,$query=[],$skip=0, $limit=1000, $sort=array());
 }
