@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install git -y
 
 RUN apt-get update &\
     apt-get install -y libcurl4-openssl-dev pkg-config libssl-dev &\
+    apt-get install php-pear &\
     pecl install mongodb &\
     echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/docker-php-ext-mongodb.ini
 
