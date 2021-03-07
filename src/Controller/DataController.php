@@ -135,5 +135,24 @@ class DataController extends AbstractController
         ));
     }
 
+
+      /**
+     * @Route("/api/mutate/{db}/{name}", name="mutate", methods={"GET"})
+     */
+    public function mutate(Request $request, $db,$name)
+    {
+        $items= $this->service->find($db,"_mutations",array("name"=>$name),0,1);
+        if(!empty($items))
+        {
+            $exec= $items[0];
+            $code=$exec["code"];
+            $container["crud"]=$this->service;            
+            $function=function($container,$request){};
+            eval("\$function = function(\$container, \$request){ $code};");
+            $result=$function($container,$request);
+            return new JsonResponse($result);
+        }
+        return null;
+    }
 }
 

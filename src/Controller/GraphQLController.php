@@ -214,8 +214,7 @@ class GraphQLController extends AbstractController
                 ]
             ];
         }
-        header('Content-Type: application/json');
-        echo json_encode($output);
+         return new JsonResponse($output);
     }
 }
 
