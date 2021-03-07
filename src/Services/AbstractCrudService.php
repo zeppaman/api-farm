@@ -2,19 +2,22 @@
 
 namespace App\Services;
 
+use App\Entity\Events\DataChangedEvent;
 use MongoDB\Client;
 use MongoDB\BSON\ObjectId;
 use MongoDB\InsertOneResult;
-
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AbstractCrudService implements ICrudService
 {
     private $client;
     private $typeService;
-    public function __construct(Client $client, TypeService $typeService)
+    private $dispatcher;
+    public function __construct(Client $client, TypeService $typeService, EventDispatcherInterface $dispatcher)
     {
         $this->client=$client;            
         $this->typeService=$typeService;
+        $this->dispatcher=$dispatcher;
     }
 
     function get(String $db,String $collection,String $id)
@@ -28,16 +31,29 @@ class AbstractCrudService implements ICrudService
 
     function add(String $db,String $collection, $data)
     {
+        $event=new DataChangedEvent($data,null,DataChangedEvent::PREADD);
+        $this->dispatcher->dispatch($event, DataChangedEvent::NAME);
+        $data=$event->getData();
+
         $db= $this->client->selectDatabase($db);            
         $coll= $db->selectCollection($collection);
         unset($data["_id"]);
+        
         $result=$coll->insertOne($data);
-        $id=$result->getInsertedId();
-        return $this->get($db,$collection,$id);
+        $id=$result->getInsertedId();        
+        $result = $this->get($db,$collection,$id);
+
+        $this->dispatcher->dispatch(new DataChangedEvent($result,$data,DataChangedEvent::POSTADD), DataChangedEvent::NAME);
+
+        return $result;
     }
 
     function update(String $db,String $collection, $data,bool $replace=false)
     {
+        $event=new DataChangedEvent($data,null,DataChangedEvent::PREUPDATE);
+        $this->dispatcher->dispatch($event, DataChangedEvent::NAME);
+        $data=$event->getData();
+
         $db= $this->client->selectDatabase($db);            
         $coll= $db->selectCollection($collection);
        
@@ -57,15 +73,22 @@ class AbstractCrudService implements ICrudService
         {
             $coll->updateOne($this->getIdFilter($id), $data,$options);
         }
-        return $this->get($db,$collection,$id);
+        $result= $this->get($db,$collection,$id);
+        $this->dispatcher->dispatch(new DataChangedEvent($result,$data,DataChangedEvent::POSTADD), DataChangedEvent::NAME);
+        return $result;
     }
 
     function delete(String $db, String $collection,String $id)
     {
+        $this->dispatcher->dispatch(new DataChangedEvent($id,null,DataChangedEvent::PREDELETE), DataChangedEvent::NAME);
+
+
         $db= $this->client->selectDatabase($db);            
         $coll= $db->selectCollection($collection);       
      
         $coll->deleteOne($this->getIdFilter($id));
+
+        $this->dispatcher->dispatch(new DataChangedEvent(null,null,DataChangedEvent::POSTDELETE), DataChangedEvent::NAME);       
     }
 
     function find(String $db,String $collection,$query=[], $skip=0, $limit=1000, $sort=array())

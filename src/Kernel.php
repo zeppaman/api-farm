@@ -41,21 +41,5 @@ class Kernel extends BaseKernel
         }
     }
 
-     public function load(array $configs, ContainerBuilder $container): void
-    {
-        echo "INIDTED";
-        $dispatcher= $container->get(Dispatcher::class);
-        $types= $container->get(ITypeService::class);
-
-        // $dispatcher->addListener(DataChangedEvent::NAME, function (DataChangedEvent $event) {
-        //     print_r($event);
-        //     $event->getData();
-        //     $event->setData("changed");
-        // });
-
-        // $dispatcher->dispatch($event, DataChangedEvent::NAME);
-        $types->addTypeDefinition( new TextFieldType());
-        $types->addTypeDefinition( new IntFieldType());
-
-    }
+   
 }

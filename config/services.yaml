@@ -57,3 +57,7 @@ services:
     App\Services\TypeService:
         arguments:
             - !tagged app.fieldtype
+
+    App\EventListener\AuditListener:
+          tags:
+            - { name: kernel.event_listener, event: app.crud.datachanged, method: onPreSave }
