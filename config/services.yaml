@@ -47,3 +47,13 @@ services:
     Trikoder\Bundle\OAuth2Bundle\Manager\AccessTokenManagerInterface: '@App\Security\AccessTokenManager'
     
     Symfony\Component\Security\Core\User\UserProviderInterface: '@App\Security\UserProvider'
+
+    App\Entity\Fields\IntFieldType:
+        tags: ['app.fieldtype']
+
+    App\Entity\Fields\TextFieldType:
+        tags: ['app.fieldtype']
+
+    App\Services\TypeService:
+        arguments:
+            - !tagged app.fieldtype

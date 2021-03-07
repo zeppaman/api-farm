@@ -13,4 +13,11 @@ interface ICrudService
     function delete(String $db, String $collection,String $id);
 
     function find(String $db,String $collection,$query=[],$skip=0, $limit=1000, $sort=array());
+
+
+    function getSchema(String $db,String $collection=null);
+
+    function validate(String $db,String $collection, $item);
+
+
 }

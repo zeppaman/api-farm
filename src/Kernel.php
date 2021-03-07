@@ -2,7 +2,12 @@
 
 namespace App;
 
+use App\Entity\IntFieldType;
+use App\Entity\TextFieldType;
+use App\Events\Dispatcher;
+use App\Services\ITypeService;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
@@ -34,5 +39,23 @@ class Kernel extends BaseKernel
         } elseif (is_file($path = \dirname(__DIR__).'/config/routes.php')) {
             (require $path)($routes->withPath($path), $this);
         }
+    }
+
+     public function load(array $configs, ContainerBuilder $container): void
+    {
+        echo "INIDTED";
+        $dispatcher= $container->get(Dispatcher::class);
+        $types= $container->get(ITypeService::class);
+
+        // $dispatcher->addListener(DataChangedEvent::NAME, function (DataChangedEvent $event) {
+        //     print_r($event);
+        //     $event->getData();
+        //     $event->setData("changed");
+        // });
+
+        // $dispatcher->dispatch($event, DataChangedEvent::NAME);
+        $types->addTypeDefinition( new TextFieldType());
+        $types->addTypeDefinition( new IntFieldType());
+
     }
 }

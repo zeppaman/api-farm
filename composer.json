@@ -45,7 +45,8 @@
         "symfony/yaml": "5.2.*",
         "trikoder/oauth2-bundle": "^3.2",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "webonyx/graphql-php": "^14.5"
     },
     "require-dev": {
         "symfony/browser-kit": "^5.2",

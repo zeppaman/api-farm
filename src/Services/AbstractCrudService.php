@@ -10,10 +10,11 @@ use MongoDB\InsertOneResult;
 class AbstractCrudService implements ICrudService
 {
     private $client;
-
-    public function __construct(Client $client)
+    private $typeService;
+    public function __construct(Client $client, TypeService $typeService)
     {
-        $this->client=$client;    
+        $this->client=$client;            
+        $this->typeService=$typeService;
     }
 
     function get(String $db,String $collection,String $id)
@@ -78,6 +79,52 @@ class AbstractCrudService implements ICrudService
         ));
 
         return $this->transfromMany($result);
+    }
+
+
+    function getSchema(String $db,String $collection=null)
+    {
+        $filter=array("name"=>$collection, "db"=>$db);
+
+        if(empty($collection))
+        {
+            unset($filter["name"]);
+        }
+        $items= $this->find($db,"_schema", $filter);
+        if(!empty($items) && sizeof($items)==1)
+        {
+            return $items[0];
+        }
+        return $items;
+        return null;       
+
+    }
+
+    function validate(String $db,String $collection, $item)
+    {
+        //TODO: Once per service
+        $schema=$this->getSchema( $db, $collection);
+
+        if(!empty($schema))
+        {
+            $errors=[];
+            if(key_exists("fields",$schema))
+            {
+                $fields=$schema["fields"];
+                foreach($fields as $key=>$value)
+                {
+                    $type=$this->typeService->getTypeDefinition($value["type"]);
+                    if($type)
+                    {
+                        $errors[]= $type->validate($item,$key,$item[$key],$value["settings"]);
+                    }
+                }
+            }
+
+            return $errors;
+        }
+
+        return [];
     }
 
     public function transfromMany($items)
