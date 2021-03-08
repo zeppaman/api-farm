@@ -31,7 +31,7 @@ class AbstractCrudService implements ICrudService
 
     function add(String $db,String $collection, $data)
     {
-        $event=new DataChangedEvent($data,null,DataChangedEvent::PREADD);
+        $event=new DataChangedEvent($data,null,DataChangedEvent::PREADD,$db,$collection);
         $this->dispatcher->dispatch($event, DataChangedEvent::NAME);
         $data=$event->getData();
 
@@ -43,14 +43,15 @@ class AbstractCrudService implements ICrudService
         $id=$result->getInsertedId();        
         $result = $this->get($db,$collection,$id);
 
-        $this->dispatcher->dispatch(new DataChangedEvent($result,$data,DataChangedEvent::POSTADD), DataChangedEvent::NAME);
+        $this->dispatcher->dispatch(new DataChangedEvent($result,$data,DataChangedEvent::POSTADD,$db,$collection), DataChangedEvent::NAME);
 
         return $result;
     }
 
     function update(String $db,String $collection, $data,bool $replace=false)
     {
-        $event=new DataChangedEvent($data,null,DataChangedEvent::PREUPDATE);
+
+        $event=new DataChangedEvent($data,null,DataChangedEvent::PREUPDATE,$db,$collection);
         $this->dispatcher->dispatch($event, DataChangedEvent::NAME);
         $data=$event->getData();
 
@@ -74,13 +75,13 @@ class AbstractCrudService implements ICrudService
             $coll->updateOne($this->getIdFilter($id), $data,$options);
         }
         $result= $this->get($db,$collection,$id);
-        $this->dispatcher->dispatch(new DataChangedEvent($result,$data,DataChangedEvent::POSTADD), DataChangedEvent::NAME);
+        $this->dispatcher->dispatch(new DataChangedEvent($result,$data,DataChangedEvent::POSTADD,$db,$collection), DataChangedEvent::NAME);
         return $result;
     }
 
     function delete(String $db, String $collection,String $id)
     {
-        $this->dispatcher->dispatch(new DataChangedEvent($id,null,DataChangedEvent::PREDELETE), DataChangedEvent::NAME);
+        $this->dispatcher->dispatch(new DataChangedEvent($id,null,DataChangedEvent::PREDELETE,$db,$collection), DataChangedEvent::NAME);
 
 
         $db= $this->client->selectDatabase($db);            
@@ -88,7 +89,7 @@ class AbstractCrudService implements ICrudService
      
         $coll->deleteOne($this->getIdFilter($id));
 
-        $this->dispatcher->dispatch(new DataChangedEvent(null,null,DataChangedEvent::POSTDELETE), DataChangedEvent::NAME);       
+        $this->dispatcher->dispatch(new DataChangedEvent(null,null,DataChangedEvent::POSTDELETE,$db,$collection), DataChangedEvent::NAME);       
     }
 
     function find(String $db,String $collection,$query=[], $skip=0, $limit=1000, $sort=array())
