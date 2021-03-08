@@ -35,9 +35,9 @@ class UserInfoController extends AbstractController
 
         if(empty($users))
         {
-           $user=new SimpleUser($username,$data);
+           //$user=new SimpleUser($username,$data);
          
-            return new JsonResponse($user);
+            return new JsonResponse($data);
         } 
         
         return new JsonResponse( new SimpleUser($username,$data));
