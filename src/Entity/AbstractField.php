@@ -27,4 +27,6 @@ class AbstractField implements IFieldType
     {
        return Type::string();
     }
+
+    
 }
