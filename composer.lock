@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1113d3e0d811d28d7de936a49c989e55",
+    "content-hash": "da5cce47796265ba5a676d5894c4054e",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -3467,6 +3467,54 @@
                 "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v5.6.1"
             },
             "time": "2020-08-25T19:10:18+00:00"
+        },
+        {
+            "name": "stagem/php-graphql-scalars",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stagemteam/php-graphql-scalars.git",
+                "reference": "abd7f92ac34619dc8fab4ba21d7422eb2e8b599a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stagemteam/php-graphql-scalars/zipball/abd7f92ac34619dc8fab4ba21d7422eb2e8b599a",
+                "reference": "abd7f92ac34619dc8fab4ba21d7422eb2e8b599a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stagem\\GraphQL\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Serhii Popov",
+                    "email": "popow.serhii@gmail.com",
+                    "homepage": "http://stagem.com.ua/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP library of custom GraphQL Scalars for creating precise type-safe GraphQL schemas",
+            "keywords": [
+                "custom types",
+                "graphql",
+                "scalars"
+            ],
+            "support": {
+                "issues": "https://github.com/stagemteam/php-graphql-scalars/issues",
+                "source": "https://github.com/stagemteam/php-graphql-scalars/tree/master"
+            },
+            "time": "2020-06-11T07:43:36+00:00"
         },
         {
             "name": "symfony/asset",
@@ -9507,7 +9555,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "stagem/php-graphql-scalars": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
