@@ -1,19 +1,16 @@
 <?php
 
-namespace App\Entity\Fields;
+namespace App\Entity;
 
-use App\Entity\AbstractField;
-use App\Entity\IFieldType;
+use Exception;
 use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\Type;
 
-//
-
-class IntFieldType extends AbstractField
+class AbstractField implements IFieldType
 {
     public function getType(): String
     {
-        return "int";
+        throw new  Exception("NOT IMPLEMENTED");
     }
 
     public  function validate($item, $fieldName, $value,$settings): array
@@ -22,17 +19,12 @@ class IntFieldType extends AbstractField
         if(empty($value) && !key_exists("required", $settings) && $settings["required"]) 
         {
             $validate[]="Required value for field $fieldName";
-        }
-        else
-        {
-        
-        }
+        }        
         return $validate;
     }
 
     public  function getGrapQlType():ScalarType
     {
-        return  Type::int();
+       return Type::string();
     }
-    
 }

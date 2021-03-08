@@ -21,12 +21,17 @@ class DataChangedEvent extends Event
     public $data=array();
     public $previousData;
     public $operation;
+    public $db;
+    public $entity;
 
-    public function __construct($data,$previousData,$operation)
+    public function __construct($data,$previousData,$operation, $db,$entity)
     {
         $this->data=$data;  
         $this->previousData=$previousData;
         $this->operation=$operation;
+        $this->db=$db;
+        $this->entity=$entity;
+
     }
 
     public function getData()

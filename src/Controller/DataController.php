@@ -137,7 +137,7 @@ class DataController extends AbstractController
 
 
       /**
-     * @Route("/api/mutate/{db}/{name}", name="mutate", methods={"GET"})
+     * @Route("/api/do/{db}/{name}", name="mutate", methods={"GET"})
      */
     public function mutate(Request $request, $db,$name)
     {

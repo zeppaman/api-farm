@@ -1,8 +1,8 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventListener\DataChanged;
 
-use App\Entity\Events\DataChangedEvent ;
+use App\Entity\Events\DataChangedEvent;
 use DateTime;
 use Symfony\Contracts\EventDispatcher\Event;
 

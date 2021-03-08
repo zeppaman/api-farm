@@ -39,7 +39,88 @@ http://localhost/api/data/test/test/60428383bdb90439ec593df2
 curl --location --request POST 'localhost/token' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'grant_type=password' \
---data-urlencode 'username=bobòòò' \
+--data-urlencode 'username=bob' \
 --data-urlencode 'password=xyz' \
 --data-urlencode 'client_id=c0a71bf0379c66c46da3ed41a4f4aab2' \
 --data-urlencode 'client_secret=e8f9855c30bb9915e61bc093656e75c7e8e3bc3b221eca2be796790af96e6f347b738a28c84ffb9db61617e812b21c51c8b29d9d8d1c92d2df9b386a2404c394'
+
+
+localhost/userinfo
+
+curl --location --request GET 'localhost/userinfo' --header 'Authorization: Bearer {token}'
+
+
+{
+    "data": {
+        "_id": "6043d6703e01b17faf118b53",
+        "username": "bob",
+        "nome": "Prova"
+    },
+    "username": "bob"
+}
+
+
+# GraphQL
+
+Endpoint:
+
+localhost/api/graph/test
+
+
+query { 
+  entity1{
+      _id,
+      title,
+      amount
+  }
+}
+
+
+{
+    "data": {
+        "entity1": [
+            {
+                "_id": "6045038ae0c6cde18c3c93bf",
+                "title": "prova",
+                "amount": 1000
+            }
+        ]
+    }
+}
+
+
+
+
+
+
+# Rest APIs
+
+
+curl --location --request POST 'localhost/api/data/{db}/{collection}' --data-raw '{"field": "data"}'
+
+
+curl --location --request PUT 'localhost/api/data/{db}/{collection}/id' --data-raw '{"field": "data"}'
+
+
+curl --location --request DELETE 'localhost/api/data/{db}/{collection}/id' 
+
+curl --location --request GET 'localhost/api/data/{db}/{collection}/id' 
+
+
+
+# Code lambda
+
+
+curl --location --request GET 'localhost/api/do/{db}/{action}/' 
+
+
+
+{
+    "_id" : ObjectId("60452b54200a9b44267324e8"),
+    "name" : "test2",
+    "code" : "return $container['crud']->find('test','_mutations',[],1,10);"
+}
+
+
+
+

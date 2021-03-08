@@ -2,11 +2,12 @@
 
 namespace App\Entity\Fields;
 
+use App\Entity\AbstractField;
 use App\Entity\IFieldType;
 use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Type\Definition\Type;
 
-class TextFieldType implements IFieldType
+class TextFieldType extends AbstractField
 {
     public function getType(): String
     {
