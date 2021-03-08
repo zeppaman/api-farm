@@ -113,13 +113,14 @@ class DataController extends AbstractController
      */
     public function find(Request $request,$database,$collection)
     {
-      $skip=$request->get("skip");
-      $limit=$request->get("limit");
-      $query=$request->get("query");
+      $skip=$request->get("skip",0);
+      $limit=$request->get("limit",1000);
+      $query=$request->get("query","{}");
+      $sort=$request->get("sort",array());
 
       $filter=json_decode($query??"",true);
 
-      $data=$this->service->find($database,$collection,$filter);
+      $data=$this->service->find($database,$collection,$filter,$skip,$limit,$sort);
 
         //TODO: metadata computazioni...
         return new JsonResponse(array(

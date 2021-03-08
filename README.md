@@ -10,6 +10,16 @@ Api Farm is a low code platform based on Symfony and MongoDB. It support out of 
 - GrapQL with query and mutations
 - Dynamic endpoint generation 
 
+
+# Install
+Just clone and run it
+```bash
+
+git clone https://github.com/zeppaman/API-Farm.git .
+docker-compose up
+```
+
+
 # API Usage
 
 In this section we will see how to use API Farm.
@@ -22,6 +32,10 @@ bin/console app:crud:find db collection {\"filed\":\"value\"}
 bin/console app:crud:delete db collection {\"filed\":\"value\"}
 ```
 
+
+curl --location --request POST 'http://localhost/api/data/test/_schemas' \
+--header 'Content-Type: text/plain' \
+--data-raw 
 
 
 ## Api REST 
@@ -164,4 +178,36 @@ curl --location --request GET 'localhost/api/do/{db}/{action}/'
 
 
 
+# Setup & Testing
 
+```bash
+
+#create the client oauht2
+docker-compose exec app bin/console trikoder:oauth2:create-client --grant-type password c0a71bf0379c66c46da3ed41a4f4aab2
+
+docker-compose exec app bin/console  app:crud:upsert test "_users" '{"username":"admin","newpassword":"password"}'
+#create an entity with fields title and amount
+docker-compose exec app bin/console  app:crud:upsert test '_schemas' '{ "name" : "entity1","db" :"test","fields":{"title":{"type": "text",            "name" : "title","label" : "Title"},"amount" : {"type" : "int", "name" : "amount","label" : "Amount"}}}'
+
+#get token
+curl --location --request POST 'localhost/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'username=admin' \
+--data-urlencode 'password=password' \
+--data-urlencode 'client_id={replace}' \
+--data-urlencode 'client_secret={replace}'
+
+# enter data
+docker-compose exec app bin/console  app:crud:upsert test "entity1" '{"title":"title 1","amount":100}'
+docker-compose exec app bin/console  app:crud:upsert test "entity1" '{"title":"title 2","amount":101}'
+docker-compose exec app bin/console  app:crud:upsert test "entity1" '{"title":"title 3","amount":102}'
+docker-compose exec app bin/console  app:crud:upsert test "entity1" '{"title":"title 4","amount":103}'
+
+#get data GraphQL
+curl --location --request GET 'localhost/api/graph/test' --header 'Content-Type: application/json' --data-raw '{"query":"query { \r\n  entity1{\r\n      _id,\r\n      title,\r\n      amount\r\n  }\r\n}","variables":{}}'
+
+curl --location --request GET 'http://localhost/api/data/test/entity1' \
+--header 'Authorization: Bearer {token}'
+
+```
