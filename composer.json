@@ -1,4 +1,6 @@
 {
+    "name": "zeppaman/api-farm",
+    "description": "A short description of what your package does",    
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "dev",
