@@ -12,7 +12,7 @@ import ApiFarm from '/app/core/apiFarm.js'
       limit:20,
       itemsPerPage:20,
       pageIndex:1,
-      sortBy:'',
+      sorting:{},
       itemsCount:100,
       isLoading:true,
       dataService:{},
@@ -28,7 +28,7 @@ import ApiFarm from '/app/core/apiFarm.js'
       }
     }, 
     'collection':{
-      type: Object,
+      type: String ,
       default()
       { 
         return this.$route.params.collection;
@@ -59,17 +59,17 @@ import ApiFarm from '/app/core/apiFarm.js'
       fetchdata : async function() {
        
         this.isLoading = true;
-        let sorting={};
-        if(this.sortBy)
+        let serversorting={};
+        if(this.sorting.sortBy)
         {
           let sortdesc=1;
-          if(this.sortDesc)
+          if(this.sorting.sortBy)
           {
             sortdesc=-1;
           }
-          sorting[this.sortBy]= sortdesc;
+          serversorting[this.sorting.sortBy]= sortdesc;
         }
-        let data=await this.dataService.find({}, this.skip,this.limit,sorting);
+        let data=await this.dataService.find({}, this.skip,this.limit,serversorting);
         return {
              items:data.data,
              itemsCount:1022
@@ -88,12 +88,12 @@ import ApiFarm from '/app/core/apiFarm.js'
       sortBy: function(sort)
       {
           console.log(sort);
-          this.sortBy=sort;
+          this.sorting.sortBy=sort;
       },
       sortDesc: function(sort)
       {
           console.log(sort);
-          this.sortDesc=sort;
+          this.sorting.sortDesc=sort;
       }
     },   
 

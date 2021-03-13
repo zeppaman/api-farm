@@ -3,6 +3,18 @@
 <v-app>
  <v-navigation-drawer v-model="isSidebarOpen"   absolute
       temporary>
+
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            API Farm
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            Develop. Clever.
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider></v-divider>
   <sidebar app> 
   </sidebar>
 </v-navigation-drawer>
