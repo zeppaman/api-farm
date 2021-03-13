@@ -6,14 +6,22 @@
 
 
 
-<script>
+<script type="module" data-name="main">
 
-    httpVueLoader.component(Vue,"Parent.vue")
-    module.exports= {
+
+  var parent ={
           data() {
                 return {
-                    valore:"parent"
-                }
+                    valore:this.fetchData()
+                };
+          },
+          methods: {
+               fetchData:  function() {
+                   return "parent";
+               }
           }
     }
+
+    export default parent;
+
 </script>

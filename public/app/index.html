@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+
+
+  <script src="/app/lib/vue.js"></script>
+  <script src="https://unpkg.com/http-vue-loader"></script>
+  <!-- Full bundle
+  <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script> -->
+  <script src="/app/lib/axios.js"></script>
+
+  <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
+</head>
+
+
+
+  <body>
+    <div id="app">
+      
+    </div>
+
+
+    <script type="module">
+
+    import app from "/app/app.js";
+    import login from "/app/components/login.js";
+    import grid from "/app/components/grid.js";
+    import apifarm from "/app/core/apiFarm.js";
+    
+    apifarm.load().then( (apifarm)=>{
+
+            var router = new VueRouter({
+              mode: 'history',
+              routes: [
+                {
+                  path: '/app/login',
+                  name: 'login',
+                  component:login, // async (res, rej) => import('./components/login.js'),
+                  meta: {
+                    requiresAuth: false,
+                  },
+                },
+                {
+                  path: '/app/data/:db/:collection',
+                  name: 'grid',
+                  component:grid, 
+                  props: {
+                    default: true,
+                    // db: route => ({ search: route.query.q }),
+                    // collection: route => ({ search: route.query.q })
+                    
+                  },
+                  meta: 
+                  {
+                    requiresAuth: false,
+                  },
+                },
+              ]
+            });
+
+            router.beforeEach((to, from, next) => {
+              next();
+            if (to.matched.some(record => record.meta.requiresAuth)) {
+              // this route requires auth, check if logged in
+              // if not, redirect to login page.
+              if (!auth.loggedIn()) {
+                next({
+                  path: '/login',
+                  query: { redirect: to.fullPath }
+                })
+              } else {
+                next()
+              }
+            } else {
+              next() // make sure to always call next()!
+            }
+          });
+        
+
+        console.log(router);
+        window.router=router;
+
+          new Vue({
+              el: '#app', 
+              router: router,
+              // computed: {
+              //   ViewComponent () {
+              //      return routes[this.currentRoute];
+              //   }
+              // },     
+              render(h) {
+                return h(app)
+              },
+              vuetify: new Vuetify(),
+              });
+
+    });
+
+    </script>
+
+
+  </body>
+
+</html>

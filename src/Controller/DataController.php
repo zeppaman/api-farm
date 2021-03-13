@@ -37,7 +37,8 @@ class DataController extends AbstractController
             "request"=>array(
               'database' =>$database,
               'collection' => $collection,
-              'method' =>'post'
+              'method' =>'post',
+              'username' => $this->getUser()->getUsername()
             ),
             'data'=> $data,
             'metadata' =>[]
@@ -61,7 +62,8 @@ class DataController extends AbstractController
             "request"=>array(
               'database' =>$database,
               'collection' => $collection,
-              'method' =>'put'
+              'method' =>'put',
+              'username' => $this->getUser()->getUsername()
             ),
             'data'=> $data,
             'metadata' =>[]
@@ -82,7 +84,8 @@ class DataController extends AbstractController
               'database' =>$database,
               'collection' => $collection,
               'id'=>$id,
-              'delete'=>"delete"
+              'delete'=>"delete",
+              'username' => $this->getUser()->getUsername()
             ),
             'data'=> $data,
             'metadata' =>[]
@@ -102,7 +105,8 @@ class DataController extends AbstractController
               'database' =>$database,
               'collection' => $collection,
               'id'=>$id,
-              'method' =>'get'
+              'method' =>'get',
+              'username' => $this->getUser()->getUsername()
             ),
             'data'=> $data,
             'metadata' =>[]
@@ -130,6 +134,7 @@ class DataController extends AbstractController
             'skip' => $skip,
             'limit' => $limit,
             'query' => $query,
+            'username' => $this->getUser()->getUsername()
           ),
           'data'=> $data,
           'metadata' =>[]
