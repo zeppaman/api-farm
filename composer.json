@@ -1,8 +1,11 @@
 {
     "name": "zeppaman/api-farm",
     "description": "A short description of what your package does",    
-    "type": "project",
+    "type": "library",
     "license": "proprietary",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "license": "GPL 3",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {

@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FindCommand extends Command
 {
     // the name of the command (the part after "bin/console")
-    protected static $defaultName = 'app:crud:find';
+    protected static $defaultName = 'apifarm:crud:find';
 
     /** var  $service ICrudService */
     private  $service;

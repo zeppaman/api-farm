@@ -1,0 +1,4 @@
+parameters:
+    # the parameter name is an arbitrary string (the 'app.' prefix is recommended
+    # to better differentiate your parameters from Symfony parameters).
+    apifarm.db: 'mongodb://mongo/test?retryWrites=true&w=majority'

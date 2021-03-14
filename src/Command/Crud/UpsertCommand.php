@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class UpsertCommand extends Command
 {
     // the name of the command (the part after "bin/console")
-    protected static $defaultName = 'app:crud:upsert';
+    protected static $defaultName = 'apifarm:crud:upsert';
 
     /** var  $service ICrudService */
     private  $service;
