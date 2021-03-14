@@ -22,9 +22,23 @@ export default  ApiFarm.extend("app",{
     {
         var data=
         {  count: 0,
-            isSidebarOpen : false
+            isSidebarOpen : false,
+            multiLine: true,
+            snackbar: false,
+            color: "success",
+            timeout: 10,
+            text: "",
+
         };
         return data;
+    },
+    mounted: async function()
+    {
+        this.subscribe("ui.message", (data)=>{
+            this.snackbar=true;
+            this.text=data.message;
+            this.color=data.type;
+        })
     }
   })
 

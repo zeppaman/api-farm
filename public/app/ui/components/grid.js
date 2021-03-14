@@ -1,9 +1,9 @@
-import ApiFarm from '/app/core/apiFarm.js'
+import apiFarm from '/app/core/apiFarm.js'
 
 
 
 
-  export default  ApiFarm.extend("grid",{
+  export default  apiFarm.extend("grid",{
     data: () => ({
       entityName: '',
       items: [],
@@ -76,7 +76,12 @@ import ApiFarm from '/app/core/apiFarm.js'
         };
       },
       goTo: function(item) {
-        console.log(item);
+        apiFarm.router.push({
+          name:'edit',
+          params:{
+            id:item._id
+          }
+        });
       },   
       paginate: function(pagination)
       {

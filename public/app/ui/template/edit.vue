@@ -5,43 +5,57 @@
   >
 <v-card-title>Edit</v-card-title>
 <v-card-text>
+
+
+
+
+
+
 <v-form >
     <v-container>
+    <v-row >
+     <v-btn
+       block
+      color="warning"
+      v-show="!isValid"
+      
+    >Invalid JSON</v-btn>
+
+    </v-row>
       <v-row style="height:600px" ref="monacoparent">
      
             <monaco-editor
                 ref="monaco"
-                value="{}"
+                v-model="itemJson"
                 :options="monacoOptions"
                 :amdRequire="amdRequire"
                 @editorDidMount="resizeMonaco()"                    
-               
+                @change="onChange"
                 language="json"                         
             ></monaco-editor>
    </v-row>
 
- <v-row>
-       <v-btn
-    
-      color="success"
-      class="mr-4"
-    >
-      Validate
-    </v-btn>
+     
 
     <v-btn
       color="error"
       class="mr-4"
       
     >
-      Reset Form
+      Delete
     </v-btn>
 
-    <v-btn
-      color="warning"
+   
+
+      <v-btn
     
+      color="success"
+      class="mr-4"
+      align-end
+      :disabled="!isValid"
+       @click="onSave()"
     >
-      Reset Validation
+      Save
     </v-btn>
        </v-row>
     </v-container>

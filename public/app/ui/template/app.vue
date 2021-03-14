@@ -35,8 +35,29 @@
     <v-container fluid>
 
       <!-- If using vue-router -->
-      <router-view></router-view>
+      <router-view :key="$route.fullPath"></router-view>
     </v-container>
+
+    <v-snackbar
+      v-model="snackbar"
+      :multi-line="multiLine"
+      :color="color"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          
+          text
+          :timeout="timeout"
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
   </v-main>
 
   <v-footer app>

@@ -24,9 +24,43 @@ class DataService
             "sort": JSON.stringify(sort)
         });
 
+        if(response.status!=200) return [];
         let payload=response.data;
         return payload;
     }    
+
+
+    get=async (id)=>
+    {
+       let url=`/api/data/${this.database}/${this.collection}/${id}`;
+       
+       let response= await this.client.get(url,{});
+
+        if(response.status!=200) return [];
+        let payload=response.data;
+        return payload;
+    }   
+    
+    save=async (element)=>
+    {
+        let url=`/api/data/${this.database}/${this.collection}/${element._id}`;
+
+        let method="POST";
+        if(element._id)
+        {
+            method="PUT";          
+        }
+
+        let result=await this.client.request({
+            "method": method,
+            url: url,
+            data: element
+          });
+
+        return result;
+
+
+    }
 }
 
 

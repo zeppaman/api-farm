@@ -1,6 +1,8 @@
 {
     "tokenEndpoint":"token",
     "tokenBaseUrl":"/",
+    "loginUrl":"/app/login",
+    "afterLoginUrl":"/app/welcome",
     "oauthData": {
         "grant_type": "password",
         "scope": "public",

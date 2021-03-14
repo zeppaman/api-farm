@@ -9,10 +9,26 @@ class ApiFarm
   app={};
   router={};
   config={};
+  menu=[];
 
     extend= function extend(name,component)
     {
         return Vue.component(name, (resolve, reject) => {
+
+          if(component.methods==undefined)
+          {
+            component.methods={};
+          }         
+          component.methods.emit=function(eventname, data)
+          {
+            this.$root.$emit(eventname, data);
+          };
+
+          component.methods.subscribe=function(eventname, manager)
+          {
+            this.$root.$on(eventname, manager);
+          };
+
           if(component.template===undefined)
           {
                 let basePath=this.components[name].module.modulePath;
@@ -37,6 +53,7 @@ class ApiFarm
                     return that.services;
                   }
                 };
+
                 console.log(component)              ;
                 resolve(component);
             });
@@ -46,9 +63,10 @@ class ApiFarm
     createClient= async() =>
     {
       let client=axios.create();
+
       client.interceptors.request.use(function (config) {
         const token = localStorage.getItem("token");
-        config.headers.Authorization =  token;                
+        config.headers.Authorization =  token;                        
         return config;
     });
     
@@ -59,7 +77,10 @@ class ApiFarm
         {      
           if (error.response.status===401) {
             localStorage.removeItem("token");
-            this.router.push({ name: 'login', params: { return: document.location.href } });
+            if( document.location.pathname !=  window.apiFarm.config.loginUrl)
+            {
+              document.location.href =  window.apiFarm.config.loginUrl;
+            }
           } else {
             Promise.reject(error);
           }
@@ -136,6 +157,21 @@ class ApiFarm
     };
 
 
+    registerMenus= async ()=>
+    {
+      console.log("registering menus");
+      let idx=1;
+      for (const [key, value] of Object.entries(this.modules)) 
+      {
+          console.log("registering menus for"+key);
+          if (typeof value.registerMenus !== "undefined") {
+            await value.registerMenus(this.menu,this, idx);
+            idx+=100;
+          }
+        
+      };      
+      console.log(this.menu);
+    };
 
     
 
@@ -158,6 +194,8 @@ class ApiFarm
        await this.registerComponents();
 
        await this.registerRoutes();
+
+      
        
 
         var router = new VueRouter({
@@ -198,7 +236,8 @@ class ApiFarm
           },
           vuetify: new Vuetify(),
           });
-
+      
+       this.isLoggedIn=localStorage.getItem("token")!=null;       
 
         return this;
 
@@ -221,6 +260,13 @@ class ApiFarm
       return result;
     };
     
+    navigate= (name, params)=>
+    {
+      this.router.push({
+        "name":name,
+        "params":params
+      });
+    };
 
     login= async (username,password)=>
     {
@@ -240,11 +286,13 @@ class ApiFarm
           };
 
         this.client.post(url, params, config).then(response => {
-            if(response.status=="200")
-            {
-                localStorage.setItem("token",response.data.token_type+" "+ response.data.access_token);
-                this.router.push({ name: 'welcome', params: { } });
-            }
+          if(response.status=="200")
+          {
+              localStorage.setItem("token",response.data.token_type+" "+ response.data.access_token);
+             document.location.href=this.config.afterLoginUrl;
+              this.isLoggedIn=true;
+              
+          }
           }); 
 
 
