@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ICrudService;
+use Exception;
 use MongoDB\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,6 +98,7 @@ class DataController extends AbstractController
      */
     public function getById(Request $request,$database,$collection,$id)
     {
+      
       $data=$this->service->get($database,$collection,$id);
 
         //TODO: metadata computazioni...

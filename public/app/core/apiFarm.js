@@ -11,6 +11,10 @@ class ApiFarm
   config={};
   menu=[];
 
+   emit= function(event,data)
+   {
+    apiFarm.app._events[event][0](data);
+   };
     extend= function extend(name,component)
     {
         return Vue.component(name, (resolve, reject) => {
@@ -71,7 +75,7 @@ class ApiFarm
     });
     
     
-    client.interceptors.response.use(
+     client.interceptors.response.use(
         response => response,
         error => 
         {      
@@ -81,7 +85,15 @@ class ApiFarm
             {
               document.location.href =  window.apiFarm.config.loginUrl;
             }
-          } else {
+          } 
+          else 
+          {
+            window.apiFarm.emit("ui.message",
+            { 
+              type:"error",
+              message:"An error occurred"
+            });
+            console.error(response);
             Promise.reject(error);
           }
         }
