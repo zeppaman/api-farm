@@ -1,12 +1,12 @@
 import ApiFarm from '/app/core/apiFarm.js'
-import sidebar from '/app/components/sidebar.js';
+import sidebar from '/app/ui/components/sidebar.js';
 
 
 
 export default  ApiFarm.extend("app",{
     name: 'app',
     props: {},
-    template:  '/app/template/layout/layout.vue',
+   // template:  '/app/template/layout.vue',
     components: {
         'sidebar' : sidebar
     },

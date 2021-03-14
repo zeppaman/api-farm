@@ -1,4 +1,5 @@
 
+
 class DataService
 {
     database="";
@@ -46,18 +47,4 @@ class DataServiceFactory
     }
 }
 
-
-
-
-export default {
-    init: async(app) =>
-    {
-        console.log("init");
-    },
-    registerServices: async(services,app) =>
-    {
-        console.log("registering services");
-        services.dataServiceFactory=new DataServiceFactory(app);
-    }
-};
-
+export default DataServiceFactory;

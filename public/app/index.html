@@ -22,7 +22,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-
+  <script src="https://unpkg.com/vue-monaco@1.1.0/dist/vue-monaco.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.18.0/min/vs/loader.js"></script>
 </head>
 
 
@@ -32,80 +33,36 @@
       
     </div>
 
+    <script>
+      require.config({
+        paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.18.0/min/vs/' },
+      });
+
+      // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
+      // the default worker url location (used when creating WebWorkers). The problem here is that
+      // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
+      // a web worker through a same-domain script
+      window.MonacoEnvironment = {
+        getWorkerUrl: function(workerId, label) {
+          return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+            self.MonacoEnvironment = {
+              baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.18.0/min/'
+            };
+            importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.18.0/min/vs/base/worker/workerMain.js');`)}`;
+        },
+      };
+    </script>
 
     <script type="module">
 
-    import app from "/app/app.js";
-    import login from "/app/components/login.js";
-    import grid from "/app/components/grid.js";
+
     import apifarm from "/app/core/apiFarm.js";
+   
     
     apifarm.load().then( (apifarm)=>{
 
-            var router = new VueRouter({
-              mode: 'history',
-              routes: [
-                {
-                  path: '/app/login',
-                  name: 'login',
-                  component:login, // async (res, rej) => import('./components/login.js'),
-                  meta: {
-                    requiresAuth: false,
-                  },
-                },
-                {
-                  path: '/app/data/:db/:collection',
-                  name: 'grid',
-                  component:grid, 
-                  props: {
-                    default: true,
-                    // db: route => ({ search: route.query.q }),
-                    // collection: route => ({ search: route.query.q })
-                    
-                  },
-                  meta: 
-                  {
-                    requiresAuth: false,
-                  },
-                },
-              ]
-            });
-
-            router.beforeEach((to, from, next) => {
-              next();
-            if (to.matched.some(record => record.meta.requiresAuth)) {
-              // this route requires auth, check if logged in
-              // if not, redirect to login page.
-              if (!auth.loggedIn()) {
-                next({
-                  path: '/login',
-                  query: { redirect: to.fullPath }
-                })
-              } else {
-                next()
-              }
-            } else {
-              next() // make sure to always call next()!
-            }
-          });
-        
-
-        console.log(router);
-        window.router=router;
-
-          new Vue({
-              el: '#app', 
-              router: router,
-              // computed: {
-              //   ViewComponent () {
-              //      return routes[this.currentRoute];
-              //   }
-              // },     
-              render(h) {
-                return h(app)
-              },
-              vuetify: new Vuetify(),
-              });
+            console.log("inited");
+            console.log(apifarm);
 
     });
 

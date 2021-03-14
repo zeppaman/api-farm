@@ -111,5 +111,5 @@ import ApiFarm from '/app/core/apiFarm.js'
           this.isLoading=false;
         });
   },
-    template:"/app/template/grid/grid.vue"
+    //template:"/app/template/grid.vue"
   });

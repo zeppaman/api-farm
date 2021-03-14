@@ -6,7 +6,7 @@ import ApiFarm from '/app/core/apiFarm.js'
 export default  ApiFarm.extend("sidebar",{
     name: 'sidebar',
     props: {},
-    template:  '/app/template/sidebar/sidebar.vue',
+   // template:  '/app/template/sidebar.vue',
     data () {
       return {
         items: [

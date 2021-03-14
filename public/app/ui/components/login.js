@@ -27,7 +27,7 @@ import apiFarm from '/app/core/apiFarm.js'
         }
       },      
     },
-    template:"/app/template/login/login.vue"
+   // template:"/app/template/login.vue"
   }
         
 
