@@ -5,7 +5,6 @@
     "license": "proprietary",
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "license": "GPL 3",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
