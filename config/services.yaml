@@ -4,7 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 
+
 services:
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -33,7 +35,7 @@ services:
     MongoDB\Client:
         public: true
         autowire: true
-        arguments: [ 'mongodb://mongo/test?retryWrites=true&w=majority']
+        arguments: [ '%apifarm.db%' ]
     
     App\Services\ICrudService: '@App\Services\CrudService'
 

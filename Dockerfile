@@ -1,10 +1,8 @@
 FROM php:apache-buster
 
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &\  
-    php  composer-setup.php --install-dir=/usr/bin --filename=composer &\
-    php -r "unlink('composer-setup.php');" 
 
-RUN apt-get update && apt-get install git -y
+
+RUN apt-get update && apt-get install git -y && apt-get composer  -y
 
 RUN apt-get update &\
     apt-get install -y libcurl4-openssl-dev pkg-config libssl-dev &\

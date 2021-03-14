@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DeleteCommand extends Command
 {
     // the name of the command (the part after "bin/console")
-    protected static $defaultName = 'app:crud:delete';
+    protected static $defaultName = 'apifarm:crud:delete';
 
     /** var  $service ICrudService */
     private  $service;
