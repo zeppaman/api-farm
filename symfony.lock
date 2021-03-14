@@ -212,6 +212,9 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "stagem/php-graphql-scalars": {
+        "version": "dev-master"
+    },
     "symfony/asset": {
         "version": "v5.2.4"
     },

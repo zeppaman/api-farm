@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Services\ICrudService;
+use Exception;
 use MongoDB\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,7 +38,8 @@ class DataController extends AbstractController
             "request"=>array(
               'database' =>$database,
               'collection' => $collection,
-              'method' =>'post'
+              'method' =>'post',
+              'username' => $this->getUser()->getUsername()
             ),
             'data'=> $data,
             'metadata' =>[]
@@ -61,7 +63,8 @@ class DataController extends AbstractController
             "request"=>array(
               'database' =>$database,
               'collection' => $collection,
-              'method' =>'put'
+              'method' =>'put',
+              'username' => $this->getUser()->getUsername()
             ),
             'data'=> $data,
             'metadata' =>[]
@@ -82,7 +85,8 @@ class DataController extends AbstractController
               'database' =>$database,
               'collection' => $collection,
               'id'=>$id,
-              'delete'=>"delete"
+              'delete'=>"delete",
+              'username' => $this->getUser()->getUsername()
             ),
             'data'=> $data,
             'metadata' =>[]
@@ -94,6 +98,7 @@ class DataController extends AbstractController
      */
     public function getById(Request $request,$database,$collection,$id)
     {
+      
       $data=$this->service->get($database,$collection,$id);
 
         //TODO: metadata computazioni...
@@ -102,7 +107,8 @@ class DataController extends AbstractController
               'database' =>$database,
               'collection' => $collection,
               'id'=>$id,
-              'method' =>'get'
+              'method' =>'get',
+              'username' => $this->getUser()->getUsername()
             ),
             'data'=> $data,
             'metadata' =>[]
@@ -130,6 +136,7 @@ class DataController extends AbstractController
             'skip' => $skip,
             'limit' => $limit,
             'query' => $query,
+            'username' => $this->getUser()->getUsername()
           ),
           'data'=> $data,
           'metadata' =>[]

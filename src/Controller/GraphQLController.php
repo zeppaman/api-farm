@@ -47,7 +47,7 @@ class GraphQLController extends AbstractController
             'name' => 'Query',
             'fields' => array(),
             "resolveField"=> function($objectValue, $args, $context, ResolveInfo $info)
-            {            
+            {           
               
                 $db=$context["db"];
 
@@ -72,7 +72,7 @@ class GraphQLController extends AbstractController
                 $result= $this->service->find($db,$info->fieldName,$query, $skip,$limit);                       
             
                 return $result;
-        }
+            }
         ];
 
         foreach($schema as $entity)
@@ -81,7 +81,7 @@ class GraphQLController extends AbstractController
             $entityType = [
                 'name' => $entity->name,
                 'description' => "Desc for $entity->name",               
-                'resolveField' => function($item, $args, $context, ResolveInfo $info) {                 
+                'resolveField' => function($item, $args, $context, ResolveInfo $info) {                
               
                   return $item->{$info->fieldName};                 
 
@@ -99,7 +99,6 @@ class GraphQLController extends AbstractController
             {
                 foreach($entity->fields as $name=>$value)
                 {                  
-
                     if($value->type)
                     {
                         $type=$this->typeService->getTypeDefinition($value["type"]);
@@ -111,9 +110,7 @@ class GraphQLController extends AbstractController
                     }                 
                 }             
                
-            }
-
-         
+            }         
         
           
             $config["fields"][$entity->name] = [
@@ -137,24 +134,8 @@ class GraphQLController extends AbstractController
                         'defaultValue' => 0
                     ],
                     
-                ],
+                ],                
                 
-                // 'resolve' => function ($rootValue, $args) 
-                // {
-
-                   
-                    // foreach($args as $key=>$value)
-                    // {
-                    //     if(empty($value))
-                    //     {
-                    //         unset( $args[$key]);
-                    //     }
-                    // }                   
-                   
-                    // $result= $this->service->find("test","_tokens",$args,0,1000);                       
-                 
-                    // return $result;
-                //}
             ];
         
         
