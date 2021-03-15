@@ -10,8 +10,90 @@ Api Farm is a low code platform based on Symfony and MongoDB. It support out of 
 - GrapQL with query and mutations
 - Dynamic endpoint generation 
 
+# Manual install
 
-# Install
+composer require zeppaman/api-farm
+
+Add to bundles.php
+ApiFarm\CoreBundle\CoreBundle::class => ['all' => true],
+ApiFarm\UiBundle\UiBundle::class => ['all' => true],
+
+Remove the generated files from lexik_jwt_authentication trikoder_oauth2 and fill the apifarm with the following
+
+parameters:
+    apifarm.db: 'mongodb://mongo/test?retryWrites=true&w=majority'
+
+Install asset
+bin/console asset:install --symlink --relative public
+
+https://oauth2.thephpleague.com/installation/#generating-public-and-private-keys
+openssl genrsa -out private.key 2048
+
+openssl rsa -in private.key -pubout -out public.key
+
+rewrite rule for the bundle core
+
+
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^bundles/core/(.*)$ /bundles/core/index.html [NC,L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php [NC,L,QSA]
+
+
+bin/console trikoder:oauth2:create-client --grant-type client_credentials --grant-type implicit  --grant-type password
+
+ ---------------------------------- ---------------------------------------------------------------------------------------------------------------------------------- 
+  Identifier                         Secret                                                                                                                            
+ ---------------------------------- ---------------------------------------------------------------------------------------------------------------------------------- 
+  a3c9d689306e4bbc523ce4f4d834215a   d15127c0cc7c17c741d93ff2b49b5234dba1a0e3e57c76cc758e502171316d06c3a5505226a0995d5986ff23e71cae0a6edd084cb90d1bd9de0885857dbb3a41  
+ ---------------------------------- ----------------------------------------------------------------------------------------------------------------------------------
+
+Create the config.json file
+
+{
+    "tokenEndpoint":"token",
+    "tokenBaseUrl":"/",
+    "loginUrl":"/bundles/core/login",
+    "afterLoginUrl":"/bundles/core/welcome",
+    "oauthData": {
+        "grant_type": "password",
+        "scope": "public",
+        "client_id":"c0a71bf0379c66c46da3ed41a4f4aab2",
+        "client_secret":"e8f9855c30bb9915e61bc093656e75c7e8e3bc3b221eca2be796790af96e6f347b738a28c84ffb9db61617e812b21c51c8b29d9d8d1c92d2df9b386a2404c394"
+        
+      },
+   "modules":
+    {
+        "main": "/bundles/core/services/module.js",
+        "ui": "/bundles/ui/module.js"
+    }
+}
+
+create default user console
+
+username
+
+add route
+
+
+bin/console apifarm:crud:upsert "test" "_users" '{"username":"bob","newpassword":"xyz"}'
+
+
+app_bundle:
+    # loads routes from the YAML, XML or PHP files found in some bundle directory
+    resource: '@CoreBundle/Resources/config/routes/'
+    type:     directory
+
+add security
+
+# Run it
 Just clone and run it
 ```bash
 
