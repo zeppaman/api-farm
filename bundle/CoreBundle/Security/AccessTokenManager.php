@@ -32,7 +32,7 @@ class AccessTokenManager implements AccessTokenManagerInterface
     
     public function find(string $identifier): ?AccessToken
     {
-        $tokens=$this->service->find("test","_tokens", array("identifier"=>$identifier),0,1,array('expiry'=>-1));
+        $tokens=$this->service->find("config","_tokens", array("identifier"=>$identifier),0,1,array('expiry'=>-1));
         
         foreach($tokens as $token)
         {
@@ -57,18 +57,18 @@ class AccessTokenManager implements AccessTokenManagerInterface
           $data["scopes"].=$scope->__toString().",";
         }  
   
-        $clients=$this->service->find("test","_tokens", array("identifier"=>$data["identifier"]));
+        $clients=$this->service->find("config","_tokens", array("identifier"=>$data["identifier"]));
   
         if($clients)
         {
             $data["_id"]=$clients[0]["_id"];
            
-            $this->service->update("test","_tokens",$data,true);
+            $this->service->update("config","_tokens",$data,true);
         }
         else
         {
          
-          $this->service->add("test","_tokens",$data);
+          $this->service->add("config","_tokens",$data);
         }
   
     }

@@ -105,7 +105,7 @@ import apiFarm from '/bundles/core/lib/apiFarm.js'
     mounted: async function () {
    
       this.dataService=await this.services.dataServiceFactory.get(this.db, this.collection);
-      this.schemaService=await this.services.dataServiceFactory.get("test", "_schema");
+      this.schemaService=await this.services.dataServiceFactory.get("config", "_schema");
       console.log(this.dataService);
       await this.setSchema();
 

@@ -77,7 +77,7 @@ class UiModule
     registerMenus= async(menus,app, idx)=>
     {     
       console.log("MENU LOADSING");
-      let service=await app.services.dataServiceFactory.get("test","_schema");
+      let service=await app.services.dataServiceFactory.get("config","_schema");
       let query={
         
       }
@@ -98,7 +98,7 @@ class UiModule
         let dbnode={id: idx++, name: x, children:[]};
         //add child menu items
         
-        items.data.filter(x=>x.db="test").forEach((x) =>
+        items.data.filter(y=>y.db=x).forEach((x) =>
         {
           dbnode.children.push(
             { 

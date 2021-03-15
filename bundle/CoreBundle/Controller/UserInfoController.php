@@ -28,7 +28,7 @@ class UserInfoController extends AbstractController
     {
         $username= $this->getUser()->getUsername();
 
-        $users= $this->service->find("test","_users",array("username" => $username),0,1);
+        $users= $this->service->find("config","_users",array("username" => $username),0,1);
 
         $data=get_object_vars($users[0]->jsonSerialize());
         unset($data["password"]);

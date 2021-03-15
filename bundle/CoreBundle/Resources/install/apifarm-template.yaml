@@ -1,5 +1,5 @@
 parameters:
-    apifarm.db: 'mongodb://mongo:27017/?retryWrites=true&w=majority'
+    apifarm.db: '${mongodburl}'
 
 services:
     Trikoder\Bundle\OAuth2Bundle\Manager\ClientManagerInterface: '@Apifarm\CoreBundle\Security\ClientManager'

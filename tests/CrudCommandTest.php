@@ -45,7 +45,7 @@ class UpsertCommandTest extends KernelTestCase
             "body" =>"mybody"
         );
 
-        $result=$service->add("test","test",$data);
+        $result=$service->add("config","test",$data);
 
         $command = $application->find('app:crud:delete');
         $commandTester = new CommandTester($command);

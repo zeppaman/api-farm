@@ -24,7 +24,7 @@ class UserInfoTest extends WebTestCase
             "password" =>"dsfdsff"
         );
 
-        $result=$service->add("test","_users",$data);
+        $result=$service->add("config","_users",$data);
     }
     public function testUserInfo()
     {

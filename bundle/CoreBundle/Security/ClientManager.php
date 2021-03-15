@@ -29,7 +29,7 @@ class ClientManager implements ClientManagerInterface
 
     public function find(string $identifier): ?Client
     {
-        $clients=$this->service->find("test","_clients", array("identifier"=>$identifier));
+        $clients=$this->service->find("config","_clients", array("identifier"=>$identifier));
         
         foreach($clients as $client)
         {
@@ -114,18 +114,18 @@ class ClientManager implements ClientManagerInterface
       }
 
 
-      $clients=$this->service->find("test","_clients", array("identifier"=>$data["identifier"]));
+      $clients=$this->service->find("config","_clients", array("identifier"=>$data["identifier"]));
 
       if($clients)
       {
           $data["_id"]=$clients[0]["_id"];
          
-          $this->service->update("test","_clients",$data,true);
+          $this->service->update("config","_clients",$data,true);
       }
       else
       {
        
-        $this->service->add("test","_clients",$data);
+        $this->service->add("config","_clients",$data);
       }
 
 
@@ -134,10 +134,10 @@ class ClientManager implements ClientManagerInterface
 
     public function remove(Client $client):void
     {
-        $clients=$this->service->find("test","_clients", array("identifier"=>$client->getIdentifier()));
+        $clients=$this->service->find("config","_clients", array("identifier"=>$client->getIdentifier()));
         if(sizeof($clients)>0)
         {
-            $this->service->delete("test","_clients",$clients[0]["_id"]);
+            $this->service->delete("config","_clients",$clients[0]["_id"]);
         }
 
     }
@@ -147,7 +147,7 @@ class ClientManager implements ClientManagerInterface
      */
     public function list(?ClientFilter $clientFilter):array
     {
-        $clients=$this->service->find("test","_clients", []);
+        $clients=$this->service->find("config","_clients", []);
         
         $results=[];
         foreach($clients as $client)

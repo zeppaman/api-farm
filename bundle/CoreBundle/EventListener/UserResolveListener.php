@@ -28,7 +28,7 @@ class UserResolveListener
     public function onUserResolve(UserResolveEvent $event): void
     {
         $username=$event->getUsername(); 
-        $users= $this->service->find("test","_users",array("username" =>  $username) ,0,1);
+        $users= $this->service->find("config","_users",array("username" =>  $username) ,0,1);
 
         if(empty($users))
         {
