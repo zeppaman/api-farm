@@ -1,8 +1,8 @@
 {
     "name": "zeppaman/api-farm",
-    "description": "A short description of what your package does",    
+    "description": "ApiFarm Core bundles. User zeppaman/api-farm-skeleton for creating a project",    
     "type": "library",
-    "license": "proprietary",    
+    "license": "GPL-3.0-or-later",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
