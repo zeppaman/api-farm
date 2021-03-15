@@ -1,10 +1,8 @@
 {
     "name": "zeppaman/api-farm",
-    "description": "A short description of what your package does",    
+    "description": "ApiFarm Core bundles. User zeppaman/api-farm-skeleton for creating a project",    
     "type": "library",
-    "license": "proprietary",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "license": "GPL-3.0-or-later",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
@@ -72,7 +70,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Apifarm\\": "bundle/"
         }
     },
     "autoload-dev": {
@@ -104,6 +103,7 @@
         "symfony": {
             "allow-contrib": false,
             "require": "5.2.*"
-        }
+        },
+        "symfony-assets-install": "symlink"
     }
 }

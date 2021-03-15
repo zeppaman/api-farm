@@ -1,0 +1,23 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+# apo_data:
+#     path: /api/data
+#     # the controller value has the format 'controller_class::method_name'
+#     controller: App\Controller\DataController::data
+
+oauth2:
+    resource: '@TrikoderOAuth2Bundle/Resources/config/routes.xml'
+    
+api_login_check:
+    path: /api/login_check
+
+# Apifarm\CoreBundle:
+#      resource: '@Apifarm/CoreBundle/Resources/config/annotation.yaml
+
+
+app_bundle:
+    # loads routes from the YAML, XML or PHP files found in some bundle directory
+    resource: '@CoreBundle/Resources/config/routes/'
+    type:     directory

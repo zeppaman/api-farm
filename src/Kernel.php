@@ -18,8 +18,8 @@ class Kernel extends BaseKernel
 
     protected function configureContainer(ContainerConfigurator $container): void
     {
-        $root=$this->getKernelParameters()['kernel.project_dir'];
-        $container->import("$root/config/apifarm.yaml");
+        // $root=$this->getKernelParameters()['kernel.project_dir'];
+        // $container->import("$root/config/apifarm.yaml");
         
         $container->import('../config/{packages}/*.yaml');
         $container->import('../config/{packages}/'.$this->environment.'/*.yaml');

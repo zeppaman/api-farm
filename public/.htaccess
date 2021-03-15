@@ -4,7 +4,7 @@ RewriteEngine on
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^app/(.*)$ /app/index.html [NC,L,QSA]
+RewriteRule ^bundles/core/(.*)$ /bundles/core/index.html [NC,L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

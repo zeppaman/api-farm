@@ -5,6 +5,7 @@ security:
             id: Apifarm\CoreBundle\Security\UserProvider
     encoders:
         Apifarm\CoreBundle\Entity\SimpleUser:
+            # id: 'Apifarm\CoreBundle\Security\MyPasswordEncoder'
             algorithm: pbkdf2
             hash_algorithm: sha512
             encode_as_base64: true
