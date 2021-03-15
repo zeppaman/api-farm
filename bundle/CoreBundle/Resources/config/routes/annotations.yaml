@@ -1,0 +1,13 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+# apo_data:
+#     path: /api/data
+#     # the controller value has the format 'controller_class::method_name'
+#     controller: App\Controller\DataController::data
+
+controllers:
+    resource: ../../../Controller/
+    type: annotation
+

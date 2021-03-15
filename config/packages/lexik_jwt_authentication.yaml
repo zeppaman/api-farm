@@ -1,5 +1,0 @@
-lexik_jwt_authentication:
-    secret_key: /var/www/html/config/private.key
-    public_key: /var/www/html/config/public.key
-    pass_phrase:
-    user_identity_field: sub

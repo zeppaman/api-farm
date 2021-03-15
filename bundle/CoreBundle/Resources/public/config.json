@@ -1,0 +1,18 @@
+{
+    "tokenEndpoint":"token",
+    "tokenBaseUrl":"/",
+    "loginUrl":"/app/login",
+    "afterLoginUrl":"/app/welcome",
+    "oauthData": {
+        "grant_type": "password",
+        "scope": "public",
+        "client_id":"c0a71bf0379c66c46da3ed41a4f4aab2",
+        "client_secret":"e8f9855c30bb9915e61bc093656e75c7e8e3bc3b221eca2be796790af96e6f347b738a28c84ffb9db61617e812b21c51c8b29d9d8d1c92d2df9b386a2404c394"
+        
+      },
+   "modules":
+    {
+        "main": "/bundles/core/services/module.js",
+        "ui": "/bundles/ui/ui/module.js"
+    }
+}

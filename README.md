@@ -17,6 +17,8 @@ Just clone and run it
 
 git clone https://github.com/zeppaman/API-Farm.git .
 docker-compose up
+
+bin/console assets:install public --symlink --relative
 ```
 
 

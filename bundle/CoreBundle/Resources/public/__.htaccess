@@ -1,0 +1,12 @@
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+//RewriteRule ^bundles/core(.*)$ index.html [NC,L,QSA]
+
+
+
+
+
