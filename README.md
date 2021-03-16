@@ -10,99 +10,88 @@ Api Farm is a low code platform based on Symfony and MongoDB. It support out of 
 - GrapQL with query and mutations
 - Dynamic endpoint generation 
 
+# Install options 
+The recommended deployments is to use the skeleton project, by the way you can add this bundle to your app or run this bundle directly.
+
+## Using the skeleton
+
+```bash
+# create a project
+COMPOSER_MEMORY_LIMIT=-1 composer create-project zeppaman/api-farm my-project
+
+cd my-project
+
+docker-compose up 
+
+# configure the application
+docker-compose exec app ./vendor/bin/apifarm-install apifarm:config [--db-host DB-HOST] [--db-port DB-PORT] [--db-password DB-PASSWORD] [--db-user DB-USER]
+
+# install the database
+docker-compose exec app  bin/console apifarm:install [--adminuser ADMINUSER] [--adminpassword ADMINPASSWORD] [--db-host DB-HOST] [--db-port DB-PORT] [--db-password DB-PASSWORD] [--db-user DB-USER]
+
+```
+
 # Manual install
 
+```bash
 composer require zeppaman/api-farm
+```
 
-Add to bundles.php
-ApiFarm\CoreBundle\CoreBundle::class => ['all' => true],
-ApiFarm\UiBundle\UiBundle::class => ['all' => true],
+1. Enable the core bundles in  bundles.php 
 
-Remove the generated files from lexik_jwt_authentication trikoder_oauth2 and fill the apifarm with the following
+    ```bash
+    ApiFarm\CoreBundle\CoreBundle::class => ['all' => true],
+    ApiFarm\UiBundle\UiBundle::class => ['all' => true],
 
-parameters:
-    apifarm.db: 'mongodb://mongo/test?retryWrites=true&w=majority'
+    ```
+2. Configure the yaml files by running 
 
-Install asset
-bin/console asset:install --symlink --relative public
+    ```bash
+    ./vendor/bin/apifarm-install apifarm:config [--db-host DB-HOST] [--db-port DB-PORT] [--db-password DB-PASSWORD] [--db-user DB-USER]
+    ```
+    This command will create api-farm settings files and will replace the  generated files from `lexik_jwt_authentication` `trikoder_oauth2`. The file, if present are renamed `.old` so that you could merge them manually.
+    The command creates the connection string. Now ApiFarm is ready to go!
+3.  Run `bin/console asset:install --symlink --relative public` for installing assets
+4.  Run the installation process
+    ```bash
+     bin/console apifarm:install [--adminuser ADMINUSER] [--adminpassword ADMINPASSWORD] 
+    ```
+    This command will:
+    - create an admin username
+    - generate a key pair used for JWT
+    - create the config.json file that contains the ui module registrations
+    - populate data with a sample collection schema
+5. Configure the server for serving the app. The `/bundles/core/` routes have to be served from  `/bundles/core/index.html`. The following .htaccess have to be placed into your `public` folder (if you use apache!)
 
-https://oauth2.thephpleague.com/installation/#generating-public-and-private-keys
-openssl genrsa -out private.key 2048
+    ```bash
+    RewriteEngine on
 
-openssl rsa -in private.key -pubout -out public.key
-
-rewrite rule for the bundle core
-
-
-SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
-
-RewriteEngine on
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^bundles/core/(.*)$ /bundles/core/index.html [NC,L,QSA]
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.php [NC,L,QSA]
-
-
-bin/console trikoder:oauth2:create-client --grant-type client_credentials --grant-type implicit  --grant-type password
-
- ---------------------------------- ---------------------------------------------------------------------------------------------------------------------------------- 
-  Identifier                         Secret                                                                                                                            
- ---------------------------------- ---------------------------------------------------------------------------------------------------------------------------------- 
-  a3c9d689306e4bbc523ce4f4d834215a   d15127c0cc7c17c741d93ff2b49b5234dba1a0e3e57c76cc758e502171316d06c3a5505226a0995d5986ff23e71cae0a6edd084cb90d1bd9de0885857dbb3a41  
- ---------------------------------- ----------------------------------------------------------------------------------------------------------------------------------
-
-Create the config.json file
-
-{
-    "tokenEndpoint":"token",
-    "tokenBaseUrl":"/",
-    "loginUrl":"/bundles/core/login",
-    "afterLoginUrl":"/bundles/core/welcome",
-    "oauthData": {
-        "grant_type": "password",
-        "scope": "public",
-        "client_id":"c0a71bf0379c66c46da3ed41a4f4aab2",
-        "client_secret":"e8f9855c30bb9915e61bc093656e75c7e8e3bc3b221eca2be796790af96e6f347b738a28c84ffb9db61617e812b21c51c8b29d9d8d1c92d2df9b386a2404c394"
-        
-      },
-   "modules":
-    {
-        "main": "/bundles/core/services/module.js",
-        "ui": "/bundles/ui/module.js"
-    }
-}
-
-create default user console
-
-username
-
-add route
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^bundles/core/(.*)$ /bundles/core/index.html [NC,L,QSA]
+    ```
 
 
-bin/console apifarm:crud:upsert "test" "_users" '{"username":"bob","newpassword":"xyz"}'
+## Run this bundle.
+This bundle is standalone for development and testing purpose. 
 
-
-app_bundle:
-    # loads routes from the YAML, XML or PHP files found in some bundle directory
-    resource: '@CoreBundle/Resources/config/routes/'
-    type:     directory
-
-add security
-
-# Run it
 Just clone and run it
 ```bash
 
 git clone https://github.com/zeppaman/API-Farm.git .
 docker-compose up
 
-bin/console assets:install public --symlink --relative
 ```
+Then you can follow the installation steps using   `apifarm-install`
 
+```bash
+# configure the application
+docker-compose exec app ./bundles/InstallBundle/bin/apifarm-install apifarm:config [--db-host DB-HOST] [--db-port DB-PORT] [--db-password DB-PASSWORD] [--db-user DB-USER]
+
+# install the database
+docker-compose exec app  bin/console apifarm:install [--adminuser ADMINUSER] [--adminpassword ADMINPASSWORD] [--db-host DB-HOST] [--db-port DB-PORT] [--db-password DB-PASSWORD] [--db-user DB-USER]
+
+```
 
 # API Usage
 
