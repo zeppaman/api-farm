@@ -83,19 +83,11 @@ class InstallCommand extends Command
     {
 
         $adminuser=$input->getOption('adminuser');
-        $adminpassword=$input->getOption('adminpassword');
-        $dbhost=$input->getOption('db-host');
-        $dbport=$input->getOption('db-port');
-        $dbpassword=$input->getOption('db-password');
-        $dbuser=$input->getOption('db-user');
-        $populate=$input->getOption('populate');
-
-        $this->writeConfig($dbuser,$dbpassword,$dbhost,$dbport,$output);
+        $adminpassword=$input->getOption('adminpassword');        
+        $populate=$input->getOption('populate');      
 
         $this->writeJsConfig($output);
-
-        $this->createAdmin($adminuser, $adminpassword,$output);
-    
+        $this->createAdmin($adminuser, $adminpassword,$output);    
         $this->generareKeyPair($output);
 
         return Command::SUCCESS;
@@ -155,24 +147,5 @@ class InstallCommand extends Command
       $destination=  $this->rootFolder."/public/config.json";
       $content=json_encode($data);
       file_put_contents($destination,$content);
-    }
-
-    function writeConfig($dbuser,$dbpassword,$dbhost,$dbport,$output)
-    {
-      // 
-      $credential="";
-
-      if($dbuser)
-      {
-        $credential="$dbuser:$dbpassword@";
-      }
-
-      $mongodburl="mongodb://$credential$dbhost:$dbport/?retryWrites=true&w=majority";
-      $template=\Dirname(__DIR__)."/Resources/install/apifarm-template.yaml";
-      $output->writeln("getting config template from  $template");
-      $content=file_get_contents($template);
-      $content = str_replace('${mongodburl}', $mongodburl, $content);
-      $destination=  $this->rootFolder."/config/packages/apifarm.yaml";
-      file_put_contents($destination,$content);
-    }
+    }  
 }

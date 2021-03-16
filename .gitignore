@@ -76,3 +76,4 @@ bundle/InstallBundle/var/cache/dev/translations/catalogue.it.e3iyYKO.php.meta
 ###> lexik/jwt-authentication-bundle ###
 */var/cache/*
 ###< lexik/jwt-authentication-bundle ###
+bundle/InstallBundle/var/cache/**
