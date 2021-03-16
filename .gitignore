@@ -68,7 +68,7 @@
 # Backup entities generated with doctrine:generate:entities command
 **/Entity/*~
 
-# Embedded web-server pid file
+# Embedded weexotb-server pid file
 /.web-server-pid
 bundle/InstallBundle/var/cache/dev/translations/catalogue.it.e3iyYKO.php.meta
 
