@@ -65,7 +65,7 @@ class ConfigCommand extends Command
     {        
         if(file_exists($file))
         {
-            $output->writeln("found conf file $file, renamed in .old");
+            $output->writeln("<comment>found conf file $file, renamed in .old</comment>");
             rename($file,$file.".old");
         }
     }
@@ -87,6 +87,8 @@ class ConfigCommand extends Command
       $content = str_replace('${mongodburl}', $mongodburl, $content);
       $destination=  $this->rootFolder."/config/packages/apifarm.yaml";
       file_put_contents($destination,$content);
+
+      $output->writeln('<info>Apifarm written in /config/packages/apifarm.yaml. You can change it later </info>');
     }
 
 
@@ -99,5 +101,6 @@ class ConfigCommand extends Command
       $content=file_get_contents($template);
       $destination=  $this->rootFolder."/config/routes/apifarm.yaml";
       file_put_contents($destination,$content);
+      $output->writeln('<info>routing file written in /config/routes/apifarm.yaml. You can change it later </info>');
     }
 }

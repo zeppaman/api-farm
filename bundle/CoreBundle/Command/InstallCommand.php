@@ -47,7 +47,7 @@ class InstallCommand extends Command
             ],       
         "entity1" =>[
             array (
-                'title' => 'prova22m2',
+                'title' => 'test item',
                 'amount' => '1000',
                 'updated' => '2021-03-14T17:15:57+00:00',
               )
@@ -96,10 +96,12 @@ class InstallCommand extends Command
 
     function generareKeyPair($output)
     {
+      
       $private_key = openssl_pkey_new();
       openssl_pkey_export_to_file( $private_key, $this->rootFolder."/config/private.key");
       $public_key_pem = openssl_pkey_get_details($private_key)['key'];  
       file_put_contents($this->rootFolder."/config/public.key", $public_key_pem );
+      $output->writeln("<info>Private and public key generated</info>");
     }
 
     function createAdmin($adminuser, $adminpassword,$output)
@@ -111,6 +113,8 @@ class InstallCommand extends Command
         'newpassword' => $adminpassword,
         'nome' => 'Administrator',
       ));
+
+      $output->writeln("<info>Admin user $adminuser created. You can login with it. </info>");
     }
     function initData($output)
     {      
@@ -123,7 +127,7 @@ class InstallCommand extends Command
           $this->service->add("config",$collection,$item);
         }
       }     
-      $output->writeln("data inited");
+      $output->writeln("<info>data inited</info>");
     }
 
     function writeJsConfig($output)
@@ -147,5 +151,7 @@ class InstallCommand extends Command
       $destination=  $this->rootFolder."/public/config.json";
       $content=json_encode($data);
       file_put_contents($destination,$content);
+
+      $output->writeln("<info>Js config created in /public/config.js You can change with later. </info>");
     }  
 }
