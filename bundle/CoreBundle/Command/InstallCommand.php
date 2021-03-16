@@ -144,12 +144,14 @@ class InstallCommand extends Command
       ));
 
       $template=\Dirname(__DIR__)."/Resources/install/config.json";
-      $data=json_decode($template);
+      $output->writeln("<comment>Js read from  $template </comment>");
+      $content=file_get_contents($template);
+      $output->writeln($content);
+      $data=json_decode($content,true);
       $data["oauthData"]["identifier"]=$identifier;
-      $data["oauthData"]["secret"]=$secret;
-      $output->writeln("getting config js template from  $template");     
+      $data["oauthData"]["secret"]=$secret;   
       $destination=  $this->rootFolder."/public/config.json";
-      $content=json_encode($data);
+      $content=json_encode($data,JSON_PRETTY_PRINT);
       file_put_contents($destination,$content);
 
       $output->writeln("<info>Js config created in /public/config.js You can change with later. </info>");
