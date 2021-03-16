@@ -52,6 +52,7 @@ class ConfigCommand extends Command
 
         $this->neutralize($this->rootFolder."/config/packages/lexik_jwt_authentication.yaml",$output);
         $this->neutralize($this->rootFolder."/config/packages/trikoder_oauth2.yaml",$output);
+        $this->neutralize($this->rootFolder."/config/packages/security.yaml",$output);
         $this->neutralize($this->rootFolder."/config/routes/trikoder_oauth2.yaml",$output);
         
         $this->writeConfig($dbuser,$dbpassword,$dbhost,$dbport,$output);
@@ -91,16 +92,25 @@ class ConfigCommand extends Command
       $output->writeln('<info>Apifarm written in /config/packages/apifarm.yaml. You can change it later </info>');
     }
 
-
     function writeRoute($output)
+    {
+        $this->writeGeneric("/install/routes-template.yaml","/config/routes/apifarm.yaml", $output);
+    }
+
+    function writeSecurity($output)
+    {
+        $this->writeGeneric("/install/security-template.yaml","/config/packages/secutity.yaml", $output);
+    }
+
+    function writeGeneric($source,$dest,$output)
     {
       $output->writeln("Writing routing config");
 
-      $template=\Dirname(__DIR__)."/install/routes-template.yaml";
+      $template=\Dirname(__DIR__).$source;
       $output->writeln("getting config routes from  $template");
       $content=file_get_contents($template);
-      $destination=  $this->rootFolder."/config/routes/apifarm.yaml";
+      $destination=  $this->rootFolder.$dest;
       file_put_contents($destination,$content);
-      $output->writeln('<info>routing file written in /config/routes/apifarm.yaml. You can change it later </info>');
+      $output->writeln('<info>routing file written in $dest. You can change it later </info>');
     }
 }

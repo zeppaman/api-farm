@@ -14,7 +14,43 @@ lexik_jwt_authentication:
     pass_phrase:
     user_identity_field: sub
 
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        db_user_provider:
+            id: Apifarm\CoreBundle\Security\UserProvider
+    encoders:
+        Apifarm\CoreBundle\Entity\SimpleUser:
+            algorithm: pbkdf2
+            hash_algorithm: sha512
+            encode_as_base64: true
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+    
 
+        oauth_jwt:
+            pattern:   ^/api/
+            stateless: true
+            security: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        auth_jwt:
+            pattern:   ^/userinfo
+            stateless: true
+            security: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+         - { path: ^/api/data, roles: IS_AUTHENTICATED_FULLY  }
+         - { path: ^/userinfo, roles: IS_AUTHENTICATED_FULLY  }
+
+         
 trikoder_oauth2:
     authorization_server: # Required
 

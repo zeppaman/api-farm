@@ -18,6 +18,7 @@ class InstallCommand extends Command
     private  $service;
 
     private $dataseed=array(
+      "config" =>array(
         "_schema" =>[
             array (
                 'name' => 'entity1',
@@ -45,6 +46,8 @@ class InstallCommand extends Command
                 'code' => ' $var=$request->get(\'var\'); return array(\'test\'=>\'foo\', \'get\'=>$var);',
               )
             ],       
+          ),
+      "test" =>array(  
         "entity1" =>[
             array (
                 'title' => 'test item',
@@ -52,6 +55,7 @@ class InstallCommand extends Command
                 'updated' => '2021-03-14T17:15:57+00:00',
               )
         ]
+      )
     );
 
     protected $params;
@@ -90,6 +94,8 @@ class InstallCommand extends Command
         $this->createAdmin($adminuser, $adminpassword,$output);    
         $this->generareKeyPair($output);
 
+        $this->initData($output);
+
         return Command::SUCCESS;
 
     }
@@ -116,17 +122,23 @@ class InstallCommand extends Command
 
       $output->writeln("<info>Admin user $adminuser created. You can login with it. </info>");
     }
+
     function initData($output)
     {      
 
       $output->writeln("data initing");
-      foreach( $this->dataseed as $collection=>$items)
+      foreach( $this->dataseed as $db=>$collection)
       {
-        foreach($items as $item)
-        {
-          $this->service->add("config",$collection,$item);
-        }
-      }     
+        $output->writeln("<info>comment initing database $db </info>");
+          foreach( $collection as $collection=>$items)
+          {
+            $output->writeln("comment initing collection $collection ");
+            foreach($items as $item)
+            {
+              $this->service->add($db,$collection,$item);
+            }
+          }     
+      }
       $output->writeln("<info>data inited</info>");
     }
 
@@ -148,8 +160,8 @@ class InstallCommand extends Command
       $content=file_get_contents($template);
       $output->writeln($content);
       $data=json_decode($content,true);
-      $data["oauthData"]["identifier"]=$identifier;
-      $data["oauthData"]["secret"]=$secret;   
+      $data["oauthData"]["client_id"]=$identifier;
+      $data["oauthData"]["client_secret"]=$secret;   
       $destination=  $this->rootFolder."/public/config.json";
       $content=json_encode($data,JSON_PRETTY_PRINT);
       file_put_contents($destination,$content);
