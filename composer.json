@@ -5,7 +5,7 @@
     "license": "GPL-3.0-or-later",
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "bin": ["bin/pimcore-install"],
+    "bin": ["bundles/InstallBundle/bin/apifarm-install"],
     "require": {
         "php": ">=7.2.5",
         "ext-ctype": "*",
