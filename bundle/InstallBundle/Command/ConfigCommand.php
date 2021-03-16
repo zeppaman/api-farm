@@ -50,13 +50,29 @@ class ConfigCommand extends Command
         $dbpassword=$input->getOption('db-password');
         $dbuser=$input->getOption('db-user');
 
+        $this->neutralize($this->rootFolder."/config/packages/lexik_jwt_authentication.yaml",$output);
+        $this->neutralize($this->rootFolder."/config/packages/trikoder_oauth2.yaml",$output);
+        $this->neutralize($this->rootFolder."/config/routes/trikoder_oauth2.yaml",$output);
+        
         $this->writeConfig($dbuser,$dbpassword,$dbhost,$dbport,$output);
+
+        $this->writeRoute($output);
+
         return Command::SUCCESS;
+    }
+
+    function neutralize($file, OutputInterface $output)
+    {        
+        if(file_exists($file))
+        {
+            $output->writeln("found conf file $file, renamed in .old");
+            rename($file,$file.".old");
+        }
     }
 
     function writeConfig($dbuser,$dbpassword,$dbhost,$dbport,$output)
     {
-      // 
+      $output->writeln("Writing database config");
       $credential="";
 
       if($dbuser)
@@ -70,6 +86,18 @@ class ConfigCommand extends Command
       $content=file_get_contents($template);
       $content = str_replace('${mongodburl}', $mongodburl, $content);
       $destination=  $this->rootFolder."/config/packages/apifarm.yaml";
+      file_put_contents($destination,$content);
+    }
+
+
+    function writeRoute($output)
+    {
+      $output->writeln("Writing routing config");
+
+      $template=\Dirname(__DIR__)."/install/routes-template.yaml";
+      $output->writeln("getting config routes from  $template");
+      $content=file_get_contents($template);
+      $destination=  $this->rootFolder."/config/routes/apifarm.yaml";
       file_put_contents($destination,$content);
     }
 }

@@ -13,8 +13,6 @@
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.12",
         "doctrine/doctrine-bundle": "^2.2",
-        "doctrine/doctrine-migrations-bundle": "^3.0",
-        "doctrine/mongodb-odm-bundle": "^4.3",
         "doctrine/orm": "^2.8",
         "lexik/jwt-authentication-bundle": "^2.11",
         "mongodb/mongodb": "^1.8",
@@ -91,7 +89,8 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "vendor/bin"
         ],
         "post-update-cmd": [
             "@auto-scripts"

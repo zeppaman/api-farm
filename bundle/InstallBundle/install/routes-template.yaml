@@ -1,0 +1,12 @@
+
+oauth2:
+    resource: '@TrikoderOAuth2Bundle/Resources/config/routes.xml'
+    
+api_login_check:
+    path: /api/login_check
+
+
+app_bundle:
+    # loads routes from the YAML, XML or PHP files found in some bundle directory
+    resource: '@CoreBundle/Resources/config/routes/'
+    type:     directory
