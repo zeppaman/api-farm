@@ -99,7 +99,7 @@ class ConfigCommand extends Command
 
     function writeSecurity($output)
     {
-        $this->writeGeneric("/install/security-template.yaml","/config/packages/secutity.yaml", $output);
+        $this->writeGeneric("/install/security-template.yaml","/config/packages/security.yaml", $output);
     }
 
     function writeGeneric($source,$dest,$output)
